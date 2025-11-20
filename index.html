@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antech O&M - Manutenção de Usinas Solares</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: #000;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+
+        .scene {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: fadeInOut 6s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: scale(0.95); }
+            15% { opacity: 1; transform: scale(1); }
+            85% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.05); }
+        }
+
+        .scene:nth-child(1) { animation-delay: 0s; }
+        .scene:nth-child(2) { animation-delay: 6s; }
+        .scene:nth-child(3) { animation-delay: 12s; }
+        .scene:nth-child(4) { animation-delay: 18s; }
+        .scene:nth-child(5) { animation-delay: 24s; }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .tagline {
+            font-size: 2rem;
+            color: #fff;
+            text-align: center;
+            padding: 0 2rem;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .solar-panels {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        .panel {
+            position: absolute;
+            width: 150px;
+            height: 80px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            animation: floatPanel 3s ease-in-out infinite;
+        }
+
+        @keyframes floatPanel {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        .panel:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .panel:nth-child(2) { top: 20%; right: 15%; animation-delay: 0.5s; }
+        .panel:nth-child(3) { bottom: 15%; left: 20%; animation-delay: 1s; }
+        .panel:nth-child(4) { bottom: 25%; right: 10%; animation-delay: 1.5s; }
+
+        .service-icon {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .water-drop {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle at 30% 30%, #6dd5ed, #2193b0);
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(45deg);
+            animation: fall 2s infinite;
+        }
+
+        @keyframes fall {
+            0% { top: -50px; opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .water-drop:nth-child(1) { left: 20%; animation-delay: 0s; }
+        .water-drop:nth-child(2) { left: 40%; animation-delay: 0.5s; }
+        .water-drop:nth-child(3) { left: 60%; animation-delay: 1s; }
+        .water-drop:nth-child(4) { left: 80%; animation-delay: 1.5s; }
+
+        .grass {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(180deg, transparent 0%, #2ecc71 50%, #27ae60 100%);
+        }
+
+        .grass-blade {
+            position: absolute;
+            bottom: 0;
+            width: 5px;
+            height: 100px;
+            background: linear-gradient(180deg, #2ecc71, #27ae60);
+            transform-origin: bottom;
+            animation: sway 3s ease-in-out infinite;
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .cta {
+            position: absolute;
+            bottom: 10%;
+            background: #ffd700;
+            color: #000;
+            padding: 1.5rem 3rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+            animation: ctaPulse 2s infinite;
+            z-index: 100;
+        }
+
+        @keyframes ctaPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5); }
+            50% { transform: scale(1.1); box-shadow: 0 15px 40px rgba(255, 215, 0, 0.8); }
+        }
+
+        .stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-top: 0.5rem;
+        }
+
+        .sun {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #ffd700, #ff8c00);
+            border-radius: 50%;
+            box-shadow: 0 0 100px rgba(255, 215, 0, 0.8);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .sun-ray {
+            position: absolute;
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+            top: 50%;
+            left: 50%;
+            transform-origin: left center;
+        }
+
+        .sun-ray:nth-child(1) { transform: rotate(0deg); }
+        .sun-ray:nth-child(2) { transform: rotate(45deg); }
+        .sun-ray:nth-child(3) { transform: rotate(90deg); }
+        .sun-ray:nth-child(4) { transform: rotate(135deg); }
+
+        .contact-info {
+            font-size: 1.5rem;
+            color: #ffd700;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .logo { font-size: 2.5rem; }
+            .tagline { font-size: 1.2rem; }
+            .service-icon { font-size: 3rem; }
+            .stat-number { font-size: 2rem; }
+            .stat-label { font-size: 1rem; }
+            .stats { gap: 1.5rem; }
+            .cta { font-size: 1.2rem; padding: 1rem 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <!-- Scene 1: Intro -->
+        <div class="scene">
+            <div class="sun" style="top: 10%; right: 10%;">
+                <div class="sun-ray"></div>
+                <div class="sun-ray"></div>
+                <div class="sun-ray"></div>
+                <div class="sun-ray"></div>
+            </div>
+            <div class="logo">ANTECH O&M</div>
+            <div class="tagline">Especialistas em Manutenção de Usinas Solares</div>
+        </div>
+
+        <!-- Scene 2: Washing Service -->
+        <div class="scene">
+            <div class="solar-panels">
+                <div class="panel"></div>
+                <div class="panel"></div>
+                <div class="panel"></div>
+                <div class="panel"></div>
+                <div class="water-drop"></div>
+                <div class="water-drop"></div>
+                <div class="water-drop"></div>
+                <div class="water-drop"></div>
+            </div>
+            <div class="service-icon">💧</div>
+            <div class="tagline">Lavagem Profissional de Painéis Solares</div>
+            <div class="tagline" style="font-size: 1.3rem; margin-top: 1rem; color: #6dd5ed;">
+                Aumente a eficiência em até 30%
+            </div>
+        </div>
+
+        <!-- Scene 3: Mowing Service -->
+        <div class="scene">
+            <div class="grass">
+                <div class="grass-blade" style="left: 10%; animation-delay: 0s;"></div>
+                <div class="grass-blade" style="left: 20%; animation-delay: 0.2s;"></div>
+                <div class="grass-blade" style="left: 30%; animation-delay: 0.4s;"></div>
+                <div class="grass-blade" style="left: 40%; animation-delay: 0.6s;"></div>
+                <div class="grass-blade" style="left: 50%; animation-delay: 0.8s;"></div>
+                <div class="grass-blade" style="left: 60%; animation-delay: 1s;"></div>
+                <div class="grass-blade" style="left: 70%; animation-delay: 1.2s;"></div>
+                <div class="grass-blade" style="left: 80%; animation-delay: 1.4s;"></div>
+                <div class="grass-blade" style="left: 90%; animation-delay: 1.6s;"></div>
+            </div>
+            <div class="service-icon">🌱</div>
+            <div class="tagline">Roçagem e Manutenção de Áreas</div>
+            <div class="tagline" style="font-size: 1.3rem; margin-top: 1rem; color: #2ecc71;">
+                Mantenha sua usina sempre limpa e operacional
+            </div>
+        </div>
+
+        <!-- Scene 4: Stats -->
+        <div class="scene">
+            <div class="tagline" style="font-size: 2.5rem; margin-bottom: 3rem;">
+                Resultados Comprovados
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">+30%</div>
+                    <div class="stat-label">Eficiência</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Satisfação</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Suporte</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 5: CTA -->
+        <div class="scene">
+            <div class="logo">ANTECH O&M</div>
+            <div class="tagline">Sua Usina Solar Sempre no Máximo Desempenho</div>
+            <div class="contact-info">
+                📞 Entre em Contato Hoje Mesmo
+            </div>
+            <div class="tagline" style="font-size: 1.2rem; margin-top: 1.5rem; color: #6dd5ed;">
+                Lavagem | Roçagem | Manutenção Completa
+            </div>
+        </div>
+
+        <button class="cta" onclick="window.location.href='mailto:contato@antechom.com'">
+            SOLICITE UM ORÇAMENTO
+        </button>
+    </div>
+
+    <script>
+        // Loop the animation
+        setTimeout(() => {
+            location.reload();
+        }, 30000); // Restart after 30 seconds
+
+        // Add dynamic elements
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add extra visual effects
+            const scenes = document.querySelectorAll('.scene');
+            scenes.forEach((scene, index) => {
+                scene.style.zIndex = scenes.length - index;
+            });
+        });
+    </script>
+</body>
+</html>
